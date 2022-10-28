@@ -11,4 +11,4 @@ When the server receives and parses an incoming HTTP request the process start:
 - If the guards successfully accepts the request and inject the models
   - The context is passed to the middleware block associated
   - The middleware will be a bridge between the http data and the services
-  - The middleware can delegate and await other controllers calling `next()`
+  - The middleware can delegate and await other controllers calling `nxt` function
