@@ -2,6 +2,16 @@
 
 Minimalist extensible ruby HTTP framework
 
+```rb
+Kirb::App.new do |ctr|
+  ctr.use do |ctx|
+    ctx.response['Content-Type'] = 'text/html'
+    ctx.response << '<h1>Hello World</h1>'
+    ctx.response.status = 200
+  end
+end.listen 3000
+```
+
 ## How does it works?
 
 When the server receives and parses an incoming HTTP request the process start:
