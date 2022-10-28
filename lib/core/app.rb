@@ -12,11 +12,12 @@ module Kirb
 
     def listen(port, ip='127.0.0.1')
       @main_controller.prepare
-      server = Server.new ip, port do |client, req|
+      server = Server.new ip, port do |client, req, res|
         #Asume the handler will be executed in a separated thread
         router = @main_controller.create_router
-        ctx = Context.new client, req, router
+        ctx = Context.new client, req, res, router
         ctx.nxt
+        server.respond client, res.to_s
       end
       server.start
     end

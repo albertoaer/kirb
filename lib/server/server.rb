@@ -1,6 +1,7 @@
 require 'socket'
 require_relative 'threading'
 require_relative '../http/http_request'
+require_relative '../http/http_response'
 
 module Kirb
   class Server
@@ -26,14 +27,18 @@ module Kirb
     end
 
     def client_handler(client)
-      input = client.readpartial @block_size
-      request = HttpRequest.parse input
-      @handler.call client, request
+      begin
+        input = client.readpartial @block_size
+        request = HttpRequest.parse input
+        response = HttpResponse.new request
+        @handler.call client, request, response
+      rescue EOFError
+      end
     end
 
     def respond(client, response)
-      #Do not close if keep alive
-      response.write client
+      #TODO: Do not close if keep alive
+      client.write response
       client.close
     end
   end

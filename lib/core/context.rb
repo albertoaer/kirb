@@ -2,11 +2,12 @@ require_relative 'routing_tree'
 
 module Kirb
   class Context
-    attr_reader :client, :request, :router
+    attr_reader :client, :request, :response, :router
 
-    def initialize(client, request, router)
+    def initialize(client, request, response, router)
       @client = client
       @request = request
+      @response = response
       @router = router
     end
 
