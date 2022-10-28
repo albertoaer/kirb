@@ -26,10 +26,6 @@ module Kirb
       @tree << Middleware.new(validation, injection, controller.tree)
     end
 
-    # Include new static path with its guards
-    def static(localpath, *guards)
-    end
-
     # Create a new router from the tree
     def create_router
       Router.new @tree.iterate
