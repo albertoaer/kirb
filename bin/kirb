@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+def launch
+  exec 'ruby app/app.rb'
+end
+
+launch
