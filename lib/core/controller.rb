@@ -38,9 +38,15 @@ module Kirb
     end
 
     def filter_guards(guards)
+      raise ArgumentError.new 'Expecting array of guards' unless guards.is_a? Array
       validation = []
       injection = []
       guards.each do |g|
+        if g.class.include? GuardFactory
+          v, i = filter_guards(g.guards)
+          validation = validation + v
+          injection = injection + i
+        end
         validation << g if g.class.include? ValidationGuard
         injection << g if g.class.include? InjectionGuard
       end

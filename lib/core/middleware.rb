@@ -8,12 +8,12 @@ module Kirb
       @payload = payload
     end
 
-    def validate(context)
+    def validate ctx
       @validation_guards.map { |g| g.validate context }.all?
     end
 
-    def inject(context)
-      @injection_guards.each { |g| g.inject(context) }
+    def inject ctx
+      @injection_guards.each { |g| g.inject context }
     end
   end
 end
