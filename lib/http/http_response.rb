@@ -42,7 +42,7 @@ module Kirb
     def to_s
       <<~HTTP
       #{@target.version} #{@status} #{@message}\r
-      #{@headers.map { |k,v| "#{k}: #{v}\n\r" } }
+      #{@headers.map { |k,v| "#{k}: #{v}\n\r" }.join}
       \r
       #{@body}
       HTTP
