@@ -16,9 +16,11 @@ module Kirb
       begin
         loop do
           node, @tree = @tree.nxt
-          next unless node.validate ctx
 
-          node.inject ctx
+          transaction = node.new_transaction
+          next unless node.validate ctx, transaction
+
+          node.inject ctx, transaction
           payload = node.payload
 
           case payload

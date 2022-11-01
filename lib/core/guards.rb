@@ -5,8 +5,9 @@ module Kirb
     ##
     # Determine whether a context satisfies the guard
     # @param ctx [Context] the context
+    # @param data [Hash] the transaction data
     # @return [Boolean]
-    def validate ctx
+    def validate ctx, data
       raise 'Not implemented'
     end
   end
@@ -17,7 +18,8 @@ module Kirb
     ##
     # Injects data into the context
     # @param ctx [Context] the context
-    def inject ctx
+    # @param data [Hash] the transaction data
+    def inject ctx, data
       raise 'Not implemented'
     end
   end
