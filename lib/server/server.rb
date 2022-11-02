@@ -32,6 +32,8 @@ module Kirb
         request = HttpRequest.parse input
         response = HttpResponse.new request
         @handler.call client, request, response
+      rescue HttpParseError
+        client.close rescue nil #Automatic reject wrong syntax requests
       rescue EOFError
       end
     end
