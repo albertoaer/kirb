@@ -7,7 +7,7 @@ module Kirb
   module RouteValidator
     @@route_word = '[^?\/#:]+'
     #TODO: Include query and fragment in the validation
-    @@rotue_regex = /^\/(#{@@route_word}(\/#{@@route_word})*)?$/
+    @@rotue_regex = /^\/(#{@@route_word}(\/#{@@route_word})*\/?)?$/
     
     def self.validate route
       @@rotue_regex.match? route

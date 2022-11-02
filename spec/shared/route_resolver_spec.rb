@@ -12,6 +12,7 @@ describe Kirb::RouteValidator do
     expect(Kirb::RouteValidator.validate '/').to eq(true)
     expect(Kirb::RouteValidator.validate '/a').to eq(true)
     expect(Kirb::RouteValidator.validate '/aa/b').to eq(true)
+    expect(Kirb::RouteValidator.validate '/aa/b/').to eq(true)
     expect(Kirb::RouteValidator.validate '/aa/b/e').to eq(true)
   end
 end
