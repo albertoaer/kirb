@@ -26,6 +26,8 @@ module Kirb
       lines = headerraw.split("\r\n")
       raise HttpParseError.new 'No headers' if lines.empty?
       verb, route, version = lines.shift.match(/(\w+)\s+(.*?)\s+(.*)/).captures
+
+      raise HttpParseError.new 'Invalid route' unless RouteValidator.validate route
       
       verb.upcase!
       raise HttpParseError.new 'Invalid method' unless METHODS.include? verb
