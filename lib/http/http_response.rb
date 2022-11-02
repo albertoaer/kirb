@@ -40,11 +40,10 @@ module Kirb
     end
 
     def to_s
-      <<~HTTP
+      <<~HTTP + body
       #{@target.version} #{@status} #{@message}\r
-      #{@headers.map { |k,v| "#{k}: #{v}\n\r" }.join}
+      #{@headers.map { |k,v| "#{k}: #{v}" }.join '\n\r'}\r
       \r
-      #{@body}
       HTTP
     end
   end
