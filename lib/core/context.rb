@@ -14,12 +14,22 @@ module Kirb
   class Context
     attr_reader :client, :request, :response, :router, :variable
 
+    ##
+    # @param client
+    # @param request [Request]
+    # @param response [Response]
+    # @param router [Router]
     def initialize(client, request, response, router)
       @client = client
       @request = request
       @response = response
       @router = router
       @variable = VariableContextData.new request
+    end
+
+    def status(n=nil)
+      @response.status = n unless n.nil?
+      @response.status
     end
 
     def route

@@ -27,10 +27,6 @@ module Kirb
       @edit.call { @headers[header] = value }
     end
 
-    def status(code)
-      @status = code
-    end
-
     def <<(bodypartial)
       @body << bodypartial
     end
