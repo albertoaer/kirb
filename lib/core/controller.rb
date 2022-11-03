@@ -19,6 +19,15 @@ module Kirb
       @tree << Middleware.new(validation, injection, block)
     end
 
+    # Include new middleware block with its guards
+    # In this case middleware block scope is context scope
+    def embed(*guards, &block)
+      validation, injection = filter_guards(guards)
+      @tree << Middleware.new(validation, injection, Proc.new { |ctx|
+        ctx.instance_eval &block
+      })
+    end
+
     # Include new middleware controller with its guards
     def use_controller(controller, *guards)
       validation, injection = filter_guards(guards)
