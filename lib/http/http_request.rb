@@ -8,11 +8,12 @@ module Kirb
   end
 
   class HttpRequest
-    attr_reader :verb, :route, :version, :headers, :body
+    attr_reader :verb, :route, :query, :version, :headers, :body
 
-    def initialize(verb, route, version, headers, body)
+    def initialize(verb, route, query, version, headers, body)
       @verb = verb
       @route = route
+      @query = query
       @version = version
       @headers = headers
       @body = body
@@ -27,7 +28,8 @@ module Kirb
       raise HttpParseError.new 'No headers' if lines.empty?
       verb, route, version = lines.shift.match(/(\w+)\s+(.*?)\s+(.*)/).captures
 
-      raise HttpParseError.new 'Invalid route' unless RouteValidator.validate route
+      parts = RouteValidator.parts route
+      raise HttpParseError.new 'Invalid route' if parts.nil?
       
       verb.upcase!
       raise HttpParseError.new 'Invalid method' unless METHODS.include? verb
@@ -35,7 +37,7 @@ module Kirb
       raise HttpParseError.new 'Invalid http request format' unless verb and route and version
       headers = lines.map { |ln| ln.match(/^([\w-]+): (.*)$/).captures }
       raise HttpParseError.new 'Invalid http headers format' unless headers.all?
-      HttpRequest.new verb, route, version, headers.to_h, bodyraw
+      HttpRequest.new verb, parts[0], parts[1], version, headers.to_h, bodyraw
     end
   end
 end

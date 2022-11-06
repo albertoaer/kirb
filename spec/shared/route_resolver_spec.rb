@@ -6,6 +6,13 @@ describe Kirb::RouteValidator do
     expect(Kirb::RouteValidator.validate '//').to eq(false)
     expect(Kirb::RouteValidator.validate '/?/').to eq(false)
     expect(Kirb::RouteValidator.validate '/#').to eq(false)
+    expect(Kirb::RouteValidator.validate '/#').to eq(false)
+    expect(Kirb::RouteValidator.validate '/aa/b/?a').to eq(false)
+    expect(Kirb::RouteValidator.validate '/aa/b/?a=&').to eq(false)
+    expect(Kirb::RouteValidator.validate '/aa/b/?a=&&').to eq(false)
+    expect(Kirb::RouteValidator.validate '/e?a=&e&').to eq(false)
+    expect(Kirb::RouteValidator.validate '/e?a=&e=&').to eq(false)
+    expect(Kirb::RouteValidator.validate '/e?a=&e==').to eq(false)
   end
 
   it 'right route' do
@@ -14,6 +21,23 @@ describe Kirb::RouteValidator do
     expect(Kirb::RouteValidator.validate '/aa/b').to eq(true)
     expect(Kirb::RouteValidator.validate '/aa/b/').to eq(true)
     expect(Kirb::RouteValidator.validate '/aa/b/e').to eq(true)
+    expect(Kirb::RouteValidator.validate '/aa/b/?').to eq(true)
+    expect(Kirb::RouteValidator.validate '/aa/b?').to eq(true)
+    expect(Kirb::RouteValidator.validate '/aa/b/?a=').to eq(true)
+    expect(Kirb::RouteValidator.validate '/aa/b/?sample=bcd').to eq(true)
+    expect(Kirb::RouteValidator.validate '/aa/b/?sample=bcd').to eq(true)
+    expect(Kirb::RouteValidator.validate '/aa/b/?sample=bcd&other=').to eq(true)
+    expect(Kirb::RouteValidator.validate '/aa/b/?sample=bcd&other=test').to eq(true)
+  end
+
+  it 'wrong match' do
+    expect(Kirb::RouteValidator.parts '/a/b?c==').to eq(nil)
+  end
+
+  it 'right match' do
+    expect(Kirb::RouteValidator.parts '/aa/b/?').to eq(['/aa/b/', ''])
+    expect(Kirb::RouteValidator.parts '/test').to eq(['/test', ''])
+    expect(Kirb::RouteValidator.parts '/aa/b/?sample=bcd&other=').to eq(['/aa/b/', 'sample=bcd&other='])
   end
 end
 
