@@ -8,6 +8,16 @@ module Kirb
     def initialize(request)
       @remain_route = request.route
       @accepted_params = {}
+      @query = request.query
+      @query_hash = nil
+    end
+
+    def query
+      @query_hash = @query.split('&').map do |v|
+        key, val = v.split('=')
+        [key.to_sym, val]
+      end.to_h if @query_hash.nil?
+      return @query_hash
     end
   end
 
@@ -38,6 +48,10 @@ module Kirb
 
     def params
       @variable.accepted_params
+    end
+
+    def query
+      @variable.query
     end
 
     def nxt
