@@ -25,6 +25,14 @@ module Kirb
   end
 
   ##
+  # Guard that allows a default value or configuration
+  module PredefinableGuard
+    def set_default value
+      @default = value
+    end
+  end
+
+  ##
   # Guard that require dependencies
   module DependencyGuard
     ##
