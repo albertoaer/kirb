@@ -10,6 +10,13 @@ module Kirb
   class HttpRequest
     attr_reader :verb, :route, :query, :version, :headers, :body
 
+    ##
+    # @param verb [String]
+    # @param route [String]
+    # @param query [String]
+    # @param version [String]
+    # @param headers [Hash]
+    # @param body [String]
     def initialize(verb, route, query, version, headers, body)
       @verb = verb
       @route = route
@@ -37,6 +44,7 @@ module Kirb
       raise HttpParseError.new 'Invalid http request format' unless verb and route and version
       headers = lines.map { |ln| ln.match(/^([\w-]+): (.*)$/).captures }
       raise HttpParseError.new 'Invalid http headers format' unless headers.all?
+      
       HttpRequest.new verb, parts[0], parts[1], version, headers.to_h, bodyraw
     end
   end
