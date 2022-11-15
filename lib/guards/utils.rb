@@ -14,7 +14,7 @@ module Kirb
   end
 
   def self.def(guard, val)
-    guards = guard.class.include?(GuardFactory) ? guard.guards : [guard]
+    guards = guard.class.include?(GuardFactory) ? guard.guards + [guard] : [guard]
     guards.each { |g| g.set_default(val) if g.class.include? Kirb::PredefinableGuard }
     ManyGuards.new guards
   end
