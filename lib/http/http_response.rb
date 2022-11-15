@@ -28,7 +28,7 @@ module Kirb
     end
 
     def <<(bodypartial)
-      @body << bodypartial
+      @edit.call { @body << bodypartial }
     end
 
     def end
