@@ -1,4 +1,5 @@
 require_relative 'routing_tree'
+require_relative 'template_renderer'
 
 module Kirb
   class VariableContextData
@@ -56,6 +57,19 @@ module Kirb
 
     def nxt
       @router.nxt self
+    end
+
+    def file(route)
+      @response << File.read(route)
+    end
+
+    def render(route, **params)
+      template = File.read(route)
+      @response << ERBTemplateRenderer.new(template).render(self, **params)
+    end
+
+    def string(data)
+      @response << data
     end
   end
 end
