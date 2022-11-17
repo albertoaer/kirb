@@ -38,9 +38,12 @@ module Kirb
       @variable = VariableContextData.new request
     end
 
-    def status(n=nil)
-      @response.status = n unless n.nil?
-      @response.status
+    def status(code)
+      @response.status = code
+    end
+
+    def content_type(ctype)
+      @response['Content-Type'] = ctype
     end
 
     def route
