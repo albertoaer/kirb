@@ -4,19 +4,24 @@ Minimalist extensible ruby HTTP framework
 
 ```rb
 Kirb::App.new do |ctr|
-  # Use new middleware
-  ctr.use do |ctx|
-    ctx.response['Content-Type'] = 'text/html'
-    ctx.response << '<h1>Hello World</h1>'
-    ctx.status 200
-  end
-  # Or embed the middleware, just a syntactic difference
+  # Create middleware to handle requests
   ctr.embed do
-    response['Content-Type'] = 'text/html'
-    response << '<h1>Hello World</h1>'
+    content_type 'text/html' # Set content type header
+    nxt # Run next middleware
+  end
+
+  # Protect routes using guards
+  ctr.embed '/hello' do
+    string '<h1>Hello World</h1>' # Send raw string
     status 200
   end
-end.listen 3000
+
+  # Default route
+  ctr.embed do
+    render 'not_found.erb' # Render from template
+    status 404
+  end
+end.listen 3000 # Launch the web application !
 ```
 
 ## How to run it?
