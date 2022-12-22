@@ -14,15 +14,14 @@ module Kirb
 
     def start
       server = TCPServer.new @ip, @port
+      puts "Server => Listening at: #{@ip}:#{@port}"
       begin
         loop do
           client = server.accept
-          Threading.start do
-            client_handler client
-          end
+          Threading.start { client_handler client }
         end
       rescue Interrupt
-        puts 'Server closed'
+        puts 'Server => Closed'
       end
     end
 
