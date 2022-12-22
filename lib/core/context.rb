@@ -1,5 +1,6 @@
 require_relative 'routing_tree'
 require_relative 'template_renderer'
+require 'json'
 
 module Kirb
   class VariableContextData
@@ -73,6 +74,11 @@ module Kirb
 
     def string(data)
       @response << data
+    end
+
+    def json(data)
+      content_type 'application/json'
+      @response << data.to_json
     end
   end
 end
